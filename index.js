@@ -7,26 +7,27 @@ const ENV = process.env.NODE_ENV || 'development';
 const app = express();
 
 app.use(cors());
+app.use(express.json());
 
-// app.use((req, res, next) => {
-//     //call db for user info
-
-//     req.user = {
-//         name:'MIchael',
-//         occupation: 'janitor'  
-//     }
-
-//     next();
-// })
 
 app.get('/api/test', (req, res) => {
 
-    res.send(`<h1>API Status</h1>`)
+    res.send({
+        success: true,
+        message: 'API up and running without issue'
+    })
 });
 
-// app.get('/api/get-user', (req, res) => {
-//     res.send(req.user);
-// })
+app.post('/api/test', (req, res) => {
+    console.log('POST DATA:', req.body);
+
+    res.send({
+        success: true,
+        postDataRecieved: req.body,
+        message: 'API post test working'
+    })
+})
+
 
 app.listen(PORT, () => {
     console.log('Server Running at localhost:', + PORT);
