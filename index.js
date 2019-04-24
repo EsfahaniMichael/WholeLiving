@@ -4,12 +4,48 @@ const mysql = require('mysql');
 const db = require('./db');
 const PORT = process.env.PORT || 9000;
 const ENV = process.env.NODE_ENV || 'development';
+const parse = require('csv-parse');
+const fs = require('fs');
+const stream = require('stream');
+
 
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+///Code commented out is what populates the DB for "location" with all the Whole Food's info needed
+
+
+// const parser = parse({
+//     delimiter:','
+// })
+
+// parser.on('readable', function(){
+//     let record;
+//     while (record = parser.read()) {
+//         try{
+//             var sql = 'INSERT INTO `location` (lng, lat, address, city, state, zip, phonenumber, hours) VALUES (?,?,?,?,?,?,?,?)';
+//             const query = mysql.format(sql, record);
+
+//             db.query(query);
+//         }catch(error){
+//             console.log(error)
+//         }
+//     }
+// })
+
+// const readData = fs.createReadStream('./wholefoodsList.csv').pipe(parser);
+
+ const results = [];
+
+// fs.createReadStream('./wholefoodsList.csv')
+//     .pipe(parse())
+//     .on('data', (data) => results.push(data))
+//     .on('end', () => {
+//         console.log(results);
+//     });
 
 
 app.get('/api/test', async (req, res) => {
