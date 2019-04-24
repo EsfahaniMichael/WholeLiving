@@ -1,3 +1,8 @@
+    ///Connecting to DB
+    //Where SQL connects to my server
+  
+  
+  
   const mysql = require('mysql');
   const { dbConfig } = require('../config');
 
@@ -12,3 +17,4 @@
   });
 
   module.exports = connection;
+
