@@ -30,6 +30,10 @@ app.post('/api/test', async (req, res) => {
    const { name, email, phone } = req.body;
 
     try {
+        if(name.length < 3){
+            throw new Error("Your name sucks!!")
+        }
+
         const sql = 'INSERT INTO `test` (name, email, phone) VALUES (?, ?, ?)';
         const inserts = [name, email, phone];
      
