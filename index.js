@@ -12,30 +12,35 @@ app.use(cors());
 app.use(express.json());
 
 
-app.get('/api/test', (req, res) => {
+app.get('/api/test', async (req, res) => {
 
     const sql = 'SELECT * FROM `test`';
 
-    db.query(sql, (results) => {
-        console.log('DB Results:', results)
+    const users = await db.query(sql);
 
-        res.send({
-            success: true,
-            message: 'API up and running without issue'
-        });
-    });
+    res.send({
+        success: true,
+        users: users
+    })
 
     
 });
 
-app.post('/api/test', (req, res) => {
-    console.log('POST DATA:', req.body);
+app.post('/api/test', async (req, res) => {
+   const { name, email, phone } = req.body;
 
-    res.send({
-        success: true,
-        postDataRecieved: req.body,
-        message: 'API post test working'
-    })
+   const sql = 'INSERT INTO `test` (name, email, phone) VALUES (?, ?, ?)';
+   const inserts = [name, email, phone];
+
+   const query = mysql.format(sql, inserts);
+
+   const insertResults = await db.query(query);
+
+   console.log('insert results:::', insertResults);
+
+   res.send({
+       success: true
+   })
 })
 
 

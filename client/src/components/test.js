@@ -10,9 +10,9 @@ class Test extends Component {
         console.log("Resp:", resp);
 
         const postResp = await axios.post('/api/test', {
-            message: 'Hello from the frontend',
-            name: 'Jim Bob',
-            food: ['pizza', 'chips']
+            name: 'Doug Frank',
+            email: 'therealdoug@yahoo.com',
+            phone: '(571) 891-3267'
         });
 
         console.log('Post Resp:', postResp);
