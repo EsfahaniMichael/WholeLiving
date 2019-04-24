@@ -14,10 +14,18 @@ app.use(express.json());
 
 app.get('/api/test', (req, res) => {
 
-    res.send({
-        success: true,
-        message: 'API up and running without issue'
-    })
+    const sql = 'SELECT * FROM `test`';
+
+    db.query(sql, (results) => {
+        console.log('DB Results:', results)
+
+        res.send({
+            success: true,
+            message: 'API up and running without issue'
+        });
+    });
+
+    
 });
 
 app.post('/api/test', (req, res) => {
