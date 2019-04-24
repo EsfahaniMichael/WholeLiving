@@ -29,18 +29,23 @@ app.get('/api/test', async (req, res) => {
 app.post('/api/test', async (req, res) => {
    const { name, email, phone } = req.body;
 
-   const sql = 'INSERT INTO `test` (name, email, phone) VALUES (?, ?, ?)';
-   const inserts = [name, email, phone];
+    try {
+        const sql = 'INSERT INTO `test` (name, email, phone) VALUES (?, ?, ?)';
+        const inserts = [name, email, phone];
+     
+        const query = mysql.format(sql, inserts);
+     
+        const insertResults = await db.query(query);  
+     
+        res.send({
+            success: true,
+            insertId: insertResults.insertId
+        })
+    } catch(err){
+        res.status(500).send('Server Error');
+    }   
 
-   const query = mysql.format(sql, inserts);
 
-   const insertResults = await db.query(query);
-
-   console.log('insert results:::', insertResults);
-
-   res.send({
-       success: true
-   })
 })
 
 
