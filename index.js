@@ -48,6 +48,23 @@ app.use(express.json());
 //     });
 
 
+app.get('/api/location', async (req, res, next) =>{
+    const sql = 'SELECT * FROM `location`'
+    let wholeFoodsLocations = await db.query(sql);
+    // console.log("YOOO", wholeFoodsLocations)
+
+    // wholeFoodsLocations = wholeFoodsLocations.map(item => {
+    //     item.foodData = {
+            
+    //     }
+    // })
+    res.send({
+        success: true,
+        wholeFoodsLocations: wholeFoodsLocations
+    })
+})
+
+
 app.get('/api/test', async (req, res) => {
 
     const sql = 'SELECT * FROM `test`';
