@@ -7,7 +7,7 @@ class Test extends Component {
 
         const resp = await axios.get('/api/test');
 
-        console.log("Resp:", resp);
+        // console.log("Resp:", resp);
 
         const postResp = await axios.post('/api/test', {
             name: 'Doug Frank',
@@ -15,7 +15,14 @@ class Test extends Component {
             phone: '(571) 891-3267'
         });
 
-        console.log('Post Resp:', postResp);
+        // console.log('Post Resp:', postResp);
+
+
+        const locationResp = await axios.get('/api/location');
+        console.log('GETTING DATA???:', locationResp.data.wholeFoodsLocations);
+        console.log('GETTING DATA???.. FIRST ONE IN ARRAY:', locationResp.data.wholeFoodsLocations[0]);
+        console.log('Longitude...:', locationResp.data.wholeFoodsLocations[0].lng);
+        console.log('latitutde...:', locationResp.data.wholeFoodsLocations[0].lat);
     }
     render(){
         return(
