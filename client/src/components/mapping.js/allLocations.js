@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-
+import LoadingIcon from './images/LoadingIcon.png'
 class allLocations extends Component {
     
         state = {
@@ -41,7 +41,7 @@ class allLocations extends Component {
         else{
             return(
                 <div>
-                    <h1>AINT LOADED YET</h1>
+                    <img src={LoadingIcon}/>
                 </div>
             )
         }
