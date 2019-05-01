@@ -58,10 +58,46 @@ app.get('/api/location', async (req, res, next) =>{
             
     //     }
     // })
+    
+    // res.send({
+    //     success: true,
+    //     wholeFoodsLocations: wholeFoodsLocations
+    // })
+
+    wholeFoodsLocations = wholeFoodsLocations.map(item => {
+        // console.log(item);
+        item.type = "Feature",
+            item.geometry = {
+                type:"Point",
+                coordinates:[item.lng, item.lat]
+            };
+        item.properties = {
+            Address: item['address'],
+            "City": item['city'],
+            "State": item['state'],
+            "Zip":item.zip,
+            Phone: item.phone,
+            "Hours": item['hours'],
+        }
+
+        delete item.lng;
+        delete item.lat;
+        delete item.address;
+        delete item.city;
+        delete item.state;
+        delete item.zip;
+        delete item.phone;
+        delete item.hours;
+        return item;
+    });
+
     res.send({
-        success: true,
-        wholeFoodsLocations: wholeFoodsLocations
-    })
+        success:true,
+        geoJson: {
+            type:"FeatureCollection",
+            features: wholeFoodsLocations
+        }
+    });
 })
 
 
