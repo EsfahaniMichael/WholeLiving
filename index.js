@@ -91,6 +91,13 @@ app.get('/api/location', async (req, res, next) =>{
         return item;
     });
 
+    app.get('/api/states', async (req, res, next) => {
+        const sql = 'SELECT * FROM `location`'
+        let states = await db.query(sql);
+        console.log('YOU GOT ME!!');
+
+    })
+
     res.send({
         success:true,
         geoJson: {

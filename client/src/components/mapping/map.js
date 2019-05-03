@@ -25,6 +25,11 @@ class Map extends Component {
         this.createMap();
 
     }
+    async getStateData(){
+      let stateData = await axios.get('/api/states');
+
+      console.log('Hit the endpoint mate');
+    }
 
     createMap(){
         this.map = new mapboxgl.Map({
@@ -56,6 +61,21 @@ class Map extends Component {
                 type: 'geojson',                
                 data: this.state.wholefoods
             });
+
+            this.map.addLayer({
+              "id": "state-fills",
+              "type": "fill",
+              "source": "states",
+              "layout": {},
+              "paint": {
+                  "fill-color": "#627BC1",
+                  "fill-opacity": ["case",
+                      ["boolean", ["feature-state", "hover"], false],
+                      1,
+                      0.5
+                  ]
+              }
+          });
 
            
             this.map.addLayer({
@@ -150,9 +170,13 @@ class Map extends Component {
                     }
                 }
             }, 'waterway-label');
-
+            this.map.on('click', (e) => {
+              this.getStateData();
+              console.log('WOOOOW');
+            })
             this.map.on('click', 'wholefoods-point', (e) => {
                 console.log(e.features[0].properties);
+                console.log('HI!!!')
 
                
                 new mapboxgl.Popup()
