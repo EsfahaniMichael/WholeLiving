@@ -4,6 +4,9 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZXNmYWhhbmltaWNoYWVsIiwiYSI6ImNqdWhpcDFybDEwO
 import React, {Component, Fragment} from 'react';
 import axios from 'axios';
 import './map.css';
+import Title from '../firstpage/title';
+import Places from './places';
+import Input from '../inputs/input';
 
 
 class Map extends Component {
@@ -25,11 +28,11 @@ class Map extends Component {
         this.createMap();
 
     }
-    async getStateData(){
-      let stateData = await axios.get('/api/states');
+    // async getStateData(){
+    //   let stateData = await axios.get('/api/states');
 
-      console.log('Hit the endpoint mate');
-    }
+    //   console.log('Hit the endpoint mate');
+    // }
 
     createMap(){
         this.map = new mapboxgl.Map({
@@ -171,7 +174,7 @@ class Map extends Component {
                 }
             }, 'waterway-label');
             this.map.on('click', (e) => {
-              this.getStateData();
+            //   this.getStateData();
               console.log('WOOOOW');
             })
             this.map.on('click', 'wholefoods-point', (e) => {
@@ -196,6 +199,10 @@ class Map extends Component {
     render(){
         return(
                 <Fragment>
+                    <Title />
+                    <Input />
+                    {/* <Places address={} location={}/> */}
+                    <Places />
                     <div id='map'/>
                 </Fragment>
             )
