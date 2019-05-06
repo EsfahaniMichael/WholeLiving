@@ -37,7 +37,8 @@ class SearchBar extends Component {
         let addressObject = this.autocomplete.getPlace();
         let address = addressObject.address_components;
         if (address) {
-            console.log('here is an adress...', address)
+            console.log('here is an adress...', address[0].long_name)
+            console.log('here is the query', addressObject.formatted_address)
             this.setState({
                 city: address[0].long_name,
                 query: addressObject.formatted_address,
