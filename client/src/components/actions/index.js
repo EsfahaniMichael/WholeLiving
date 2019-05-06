@@ -14,6 +14,7 @@ export const submitSearch = data => async dispatch => {
             type: types.SUBMIT_SEARCH,
             payload: resp.data
         })
+        console.log('DID IT GO THRU??')
     } catch (error) {
         dispatch({
             type: types.SUBMIT_SEARCH,
@@ -21,4 +22,5 @@ export const submitSearch = data => async dispatch => {
         })
         console.log('yeah, you got here',error);                    
     }
+    
 }

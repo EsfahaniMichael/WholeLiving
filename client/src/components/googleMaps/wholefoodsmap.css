@@ -1,0 +1,9 @@
+.map-container { 
+    width: 100vw;
+    height: 85vh;
+}
+
+.map-loading-text {
+    color: white;
+    font-size: 50px;
+}
