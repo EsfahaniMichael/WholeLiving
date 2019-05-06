@@ -1,12 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import rootReducer from '/Users/esfahb/Desktop/Parapxl/WholeLiving/client/src/components/reducers';
+import think from './components/middleware/think.js';
 import App from './components/app';
 
-ReactDOM.render
-    (
+const store = createStore(rootReducer, {}, applyMiddleware(think));
+
+ReactDOM.render(
+    <Provider store={store}>
         <Router>
             <App />
-        </Router>, 
-        document.getElementById('root')
-    );
+        </Router>
+    </Provider>,
+    document.getElementById('root')
+);
