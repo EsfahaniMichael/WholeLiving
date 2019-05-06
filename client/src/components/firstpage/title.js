@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './title.css';
-function Title(){
-    return(
-        <div className="titleHeader">
-            This is Whole Living!
-        </div>
-    )
+import SearchBar from '../searchbar/searchbar';
+
+class FirstPage extends Component {
+    render(){
+        return(
+            <div>
+                <div className="titleHeader">
+                Are you looking for lower-cost healthy living? Or higher-class healthy living?
+                </div>
+                <SearchBar history={this.props.history}/>
+            </div>
+        )
+    }
 }
 
-export default Title;
+export default FirstPage;
