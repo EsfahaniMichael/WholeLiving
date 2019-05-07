@@ -65,18 +65,19 @@ class Map extends Component {
         zoom: 11
     };
 
-    // renderMarker() {
-    //     const { places } = this.props.locationList.payload;
-    //     console.log(this.props)
-    //     return places.map((place) => {
-    //         return <Marker
-    //             key={place.id}
-    //             lat={place.geometry__location__lat}
-    //             lng={place.geometry__location__lng}
-    //             name={place.name}
-    //         />
-    //     })
-    // }
+    renderMarker() {
+        // const { places } = this.props.locationList.payload;
+        console.log('this props in rendmarker',this.props)
+        console.log()
+        // return places.map((place) => {
+        //     return <Marker
+        //         key={place.id}
+        //         lat={place.geometry__location__lat}
+        //         lng={place.geometry__location__lng}
+        //         name={place.name}
+        //     />
+        // })
+    }
 
     render() {
         const { locationList } = this.props;
@@ -101,7 +102,7 @@ class Map extends Component {
                         yesIWantToUseGoogleMapApiInternals
                         onGoogleApiLoaded={({ map, maps }) => apiIsLoaded(map, maps, places)}
                     >
-                        {/* {this.renderMarker()} */}
+                        {this.renderMarker()}
                         {/* <AnyReactComponent 
                         lat={33.6412}
                         lng={-117.9188}

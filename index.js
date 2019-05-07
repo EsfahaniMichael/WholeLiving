@@ -7,6 +7,7 @@ const ENV = process.env.NODE_ENV || 'development';
 const parse = require('csv-parse');
 const fs = require('fs');
 const stream = require('stream');
+const axios = require('axios');
 
 
 
@@ -158,16 +159,75 @@ app.post('/api/test', async (req, res) => {
 //     })
 // })
 
+app.get("/api/getGymData", async (req, res) => {
+    try {
+        // Retrieving the arguments to do the location query for lat and lng
+        
+        const { address, gymType } = req.query;
+        if (!address || !gymType) {
+            throw Error('Invalid or requires address / gymType arguments');
+        }
+        
+        const locationURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyAa4PHfimwI9t7H49K6IIJylg1p_m4vGHg`;
+        const locationResponse = await axios.get(locationURL);
+
+        // Using the response from location query, use lat and lng with the gymType argument
+        // to get gym places data
+
+        const { lat, lng } = locationResponse.data.results[0].geometry.location;
+
+        const gymURL = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&key=AIzaSyAa4PHfimwI9t7H49K6IIJylg1p_m4vGHg&type=gym&radius=20000&keyword=${gymType}`;
+        const gymResponse = await axios.get(gymURL);
+
+        // console.log('testing...', gymResponse.data.results[0].geometry)
+        const gymData = gymResponse.data.results;
+        var dataToSend = {};
+        dataToSend.places = [];
+        // dataToSend.city = [];
+        
+        for(var i = 0; i < gymData.length; i++){
+            dataToSend.places.push({
+                "geometry__location__lat": gymData[i].geometry.location.lat,
+                "geometry__location__lng": gymData[i].geometry.location.lng,
+                "name": gymData[i].name
+            })
+        }
+        // dataToSend.city.push({
+        //     "latitude": lat,
+        //     "longitude": lng
+        // })
+        console.log(dataToSend)
+
+        res.send({
+            success: true,
+            gymList: dataToSend
+        })
+        
+        // Query MySQL DB for whole foods close by our location
+        
+
+        // Package data retrieved from location query and 
+        // gym places query and send back to client
+        // Data should include lat and lng on the city / location
+        // and also result of gym query
+        
+
+
+    } catch (err) {
+        throw(err);
+    }
+});
+
 
 app.get("/api/getGooglePlacesData", function (req, res) {
     console.log('HELLLOOOO!!', req.query)
     // console.log(req)
     // console.log(res)
     var geospatialSearchQuery = 'SELECT *,3956*2*ASIN(SQRT(POWER(SIN((? - ABS(location.geometry__location__lat))*PI()/180/2),2) + COS(?*PI()/180)*COS(ABS(location.geometry__location__lat)*PI()/180)*POWER(SIN((? - location.geometry__location__lng)*PI()/180/2),2))) AS distance FROM location HAVING distance < 10000 ORDER BY distance limit 10;'
-    var city = req.query.city;
+    var address = req.query.address;
     var gymType = req.query.gymType;
     var location = null;
-    var urlForGeocodingAPI = `https://maps.googleapis.com/maps/api/geocode/json?city=${city}&key="AIzaSyAa4PHfimwI9t7H49K6IIJylg1p_m4vGHg"`;
+    var urlForGeocodingAPI = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key="AIzaSyAa4PHfimwI9t7H49K6IIJylg1p_m4vGHg"`;
     var urlForGooglePlacesAPI = null;
     var searchResult = [];
     var dataToSend = {};
@@ -236,14 +296,12 @@ app.get("/api/getGooglePlacesData", function (req, res) {
         try {
             const response = await axios.get(urlForGeocodingAPI);
             if (response.statusText === "OK") {
-                console.log('response worked')
                 location = response.data.results[0].geometry.location;
                 dataToSend.mapCenter = location;
                 await getDataFromGooglePlaces();
                 await getDataFromWFMdb();
             } else {
                 res.send(response);
-                console.log('response worked')
             }
         }
         catch (error) {

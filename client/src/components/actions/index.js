@@ -10,7 +10,8 @@ export const getSearchResult = () => {
 
 export const submitSearch = data => async dispatch => {
     try {
-        const resp = await axios.get(`/api/getGooglePlacesData?city=${data.city}&&gymType=${data.gymType}`)
+        const resp = await axios.get(`/api/getGymData?address=${data.city}&gymType=${data.gymType}`)
+         //const resp = await axios.get(`/api/getGooglePlacesData?city=${data.city}&&gymType=${data.gymType}`)
         dispatch({
             type: types.SUBMIT_SEARCH,
             payload: data
