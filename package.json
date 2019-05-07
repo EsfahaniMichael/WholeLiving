@@ -4,6 +4,7 @@
   "description": "An application built for users to find neighborhoods close to healthy living businesses",
   "main": "index.js",
   "dependencies": {
+    "axios": "^0.18.0",
     "cors": "^2.8.5",
     "csv-parse": "^4.4.1",
     "express": "^4.16.4",
