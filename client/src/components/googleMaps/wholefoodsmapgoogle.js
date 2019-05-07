@@ -116,6 +116,9 @@ class Map extends Component {
 }
 
 function mapStateToProps(state) {
+    console.log('is there even a state?', state.search)
+    console.log('maybe??', state.search.locationList)
+    
     return {
         locationList: state.search.locationList
     }
